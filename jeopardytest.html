@@ -70,7 +70,7 @@
           
          // console.log("id name in fetch outside of loop" +idname);  
 
-            var thisCategory = $(".category").eq(listNum) 
+            var thisCategory = $(".category").eq(listNum) ;
             console.log(thisCategory);
 
             for (var i=0; i<=4; i++){
@@ -87,6 +87,11 @@
             }
     }
     $(function () {
+
+        var a = [];
+        a.push(JSON.parse(localStorage.getItem('session')));
+        localStorage.setItem('session', JSON.stringify(a));
+
         for(var h=0; h<=4; h++){
             var categoryNo = Math.floor((Math.random() * 24) + 9); 
            console.log("at time of random number for loop: " +categoryNo);
@@ -113,11 +118,76 @@
                    fetch(getResults,this.listNum);
                     ajaxArray.push(getResults);
                     $(this.idname).text(getResults.results[0].category); 
+                   // SaveDataToLocalStorage(getResults);
                 }
             });
            // console.log(ajaxArray);
         }    
     });
+
+//     function SaveDataToLocalStorage(data)
+// {
+//     var a = [];
+//     // Parse the serialized data back into an aray of objects
+//     a = JSON.parse(localStorage.getItem('session'));
+//     // Push the new data (whether it be an object or anything else) onto the array
+//     a.push(data);
+//     // Alert the array value
+//     alert(a);  // Should be something like [Object array]
+//     // Re-serialize the array back into a string and store it in localStorage
+//     localStorage.setItem('session', JSON.stringify(a));
+// }
+
+// Doing some basic event delegation for click events on the game board
+function boardClickHandler(event) {
+  var clickedEl = event.target;
+  var tagName = clickedEl.tagName;
+
+  if (tagName !== 'LI' && tagName !== 'SPAN') return;
+
+  var el = clickedEl;
+  if (tagName === 'SPAN') {
+    el = clickedEl.parentNode;
+  }
+
+  var classList = el.classList;
+
+  if (classList.contains("show-amount")) {
+    console.log(el);
+  }
+  else if (classList.contains("show-clue")) {
+    console.log(el);
+  }
+  else if (classList.contains("show-answer")) {
+    console.log(el);
+  }
+}
+
+function clickReset(event) {
+  event.preventDefault();
+  localStorage.removeItem(LOCAL_STORAGE_KEY);
+  document.location.reload();
+}
+
+//------------------------------------------------------------------------------
+// Init
+//------------------------------------------------------------------------------
+
+function init() {
+  
+
+  var boardEl = document.getElementById("board");
+  var resetEl = document.getElementById("reset");
+
+ 
+  boardEl.addEventListener('click', boardClickHandler);
+
+  resetEl.addEventListener('click', clickReset);
+}
+
+window.onload = init;
+
+
 
 </script>
 

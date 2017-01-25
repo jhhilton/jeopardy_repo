@@ -34,7 +34,7 @@ body {
   border-collapse: collapse;
 }
 
-.category > li {
+.category > li, .clueAndAnswer > li {
   height: 16.66%;
   background-color: #15006f;
   display: flex;
@@ -62,17 +62,20 @@ body {
 
 .show-amount .amount,
 .show-clue .clue,
-.show-answer .answer {
+.show-answer .answer,
+.show-clueAndAnswer .clueAndAnswer {
     z-index: 3;
     opacity: 1;
 }
 
-.clue-tile.show-amount {
+.clue-tile.show-amount,
+.clue-title.show-clueAndAnswer {
   transform: translateZ(0); /* http://stackoverflow.com/a/15203880 */
 }
 
 .show-clue .clue,
-.show-answer .answer {
+.show-answer .answer,
+.show-clueAndAnswer .clueAndAnswer {
   position: absolute;
   top: 0;
   left: 0;
@@ -85,7 +88,7 @@ body {
   align-items: center;
 }
 
-.show-clue .clue {
+.show-clue .clue, .show-clueAndAnswer .clueAndAnswer {
   transition: opacity .5s;
 }
 
@@ -96,12 +99,14 @@ body {
   text-shadow: 0.5vw 0.4vw black;
 }
 
-.clue {
+.clue, .clueAndAnswer {
   width: 0;
   height: 0;
   font-size: 5vw;
   transform-origin: 0 0;
 }
+
+
 
 .answer {
   width: 0;
