@@ -15,9 +15,9 @@
             <ul class="category">
                 <li class="category-name" id="category-name-0"></li>
 
-                <li id="a1" class="clue-tile show-amount" data-category-index="0"><span class="amount">$200</span><span class="clue"></span><span class="clueAndAnswer"></span><span class="answer"></span><span class="incorrect1" style="display:none"></span><span class="incorrect2" style="display:none"></span><span class="incorrect3" style="display:none"></span></li>
+                <li class="clue-tile show-amount" data-category-index="0"><span class="amount">$200</span><span class="clue"></span><span class="clueAndAnswer"></span><span class="answer"></span><span class="incorrect1" style="display:none"></span><span class="incorrect2" style="display:none"></span><span class="incorrect3" style="display:none"></span></li>
 
-                <li id="a2" class="clue-tile show-amount" data-category-index="1"><span class="amount">$400</span><span class="clue"></span><span class="clueAndAnswer"></span><span class="answer"><span class="incorrect1" style="display:none"></span><span class="incorrect2" style="display:none"></span><span class="incorrect3" style="display:none"></span></li>
+                <li class="clue-tile show-amount" data-category-index="1"><span class="amount">$400</span><span class="clue"></span><span class="clueAndAnswer"></span><span class="answer"><span class="incorrect1" style="display:none"></span><span class="incorrect2" style="display:none"></span><span class="incorrect3" style="display:none"></span></li>
 
                 <li class="clue-tile show-amount" data-category-index="2"><span class="amount">$600</span><span class="clue"></span><span class="clueAndAnswer"></span><span class="answer"><span class="incorrect1" style="display:none"></span><span class="incorrect2" style="display:none"></span><span class="incorrect3" style="display:none"></span></li>
 
@@ -84,7 +84,7 @@
 
     <script>
 
-    var totalMoney = 0
+    var totalMoney = [];
 
 function shuffle(array) {
   var currentIndex = array.length, temporaryValue, randomIndex;
@@ -128,10 +128,10 @@ function shuffle(array) {
                 // $(".incorrect3", thisCategory).eq(i).html("<button>" + smth.results[i].incorrect_answers[2]+ "</button>");
 
                 var thisClue = smth.results[i].question;
-                var correct = $('<br><br><button type="button" class="btn btn-info btn-lg  correct" id="correct">' + smth.results[i].correct_answer + '</button>');
-                var inc1 = $('<br><br><button type="button" class="btn btn-info btn-lg  incorrect" id="inc1">' + smth.results[i].incorrect_answers[0]+ '</button>');
-                var inc2 = $('<br><br><button type="button" class="btn btn-info btn-lg  incorrect" id="inc2">' + smth.results[i].incorrect_answers[1]+ '</button>');
-                var inc3 = $('<br><br><button type="button" class="btn btn-info btn-lg  incorrect" id="inc3">' + smth.results[i].incorrect_answers[2]+ '</button>');
+                var correct = $('<br><br><button type="button" class="btn btn-info btn-lg correct" id="correct">' + smth.results[i].correct_answer + '</button>');
+                var inc1 = $('<br><br><button type="button" class="btn btn-info btn-lg incorrect" id="inc1">' + smth.results[i].incorrect_answers[0]+ '</button>');
+                var inc2 = $('<br><br><button type="button" class="btn btn-info btn-lg incorrect" id="inc2">' + smth.results[i].incorrect_answers[1]+ '</button>');
+                var inc3 = $('<br><br><button type="button" class="btn btn-info btn-lg incorrect" id="inc3">' + smth.results[i].incorrect_answers[2]+ '</button>');
 
                 var choices = [correct,inc1,inc2,inc3];
 
@@ -186,22 +186,19 @@ function clickAmount (el) {
    //el.className = 'clue-tile show-clue';
   el.className = 'clue-tile show-clueAndAnswer';
   //console.log("haereaj");
-
-  
 }
 
 function clickClue (el) {
   el.className = 'clue-tile show-answer';
 }
 
-function clickAnswer (el){ //el here is the button 
+function clickAnswer (el) {
   var index = parseInt(el.getAttribute('data-category-index'), 10);
   var category = el.getAttribute('data-category');
 
   //GAME_STATE[category][index].revealed = true;
 
  // saveGameState();
-  //$(el).removeClass("clue-tile show-answer");
 
   el.className = 'clue-tile revealed';
 }
@@ -218,76 +215,39 @@ function boardClickHandler(event) {
     el = clickedEl.parentNode;
   }
 
-  var classList = el.classList; // at this point el is definitely an LI element
+  var classList = el.classList;
   //console.log(el);
-  console.log(this);
 
   if (classList.contains("show-amount")) {
-    
     clickAmount(el);
-
   }
-
-  // else if (classList.contains("show-answer")) {
-  //   $(el).removeClass("clue-tile show-answer");
-  //   clickAnswer(el);
-  //}
-
-  
-   
-  
-  else if (classList.contains("show-clueAndAnswer")){ 
-   // else if ($(this).is('#correct')){
+  //else if ((classList.contains("show-clueAndAnswer"))){ 
     //console.log(el.show)
-    //  totalMoney = totalMoney + 200;
-    //  alert(totalMoney);}
-    idCheck(el);
-  // clickClue(el);
+
+  //  clickClue(el);
     //else if (classList.contains("btn btn-info btn-lg btn-block")) {
     //clickClue(el);
     
+  //}
+  else if (classList.contains("show-answer")) {
+    clickAnswer(el);
   }
-}
 
-function idCheck(element) {
-  console.log("inside idCheck(), element is : "+element);
-  if (element.id === 'correct'){
-      console.log("inside the true function")
-      totalMoney = totalMoney + 200;
-      alert(totalMoney);
-      //clickClue(el);
-      clickAnswer(element);
+  $(document).off('click').on('click', 'button', function() {
+     if ($(this).is('#correct')){
+
+    var clueValue = $(this).closest(".clue-tile").find(".amount").html();
+    clueValue = Number(clueValue.slice(1));
+
+      totalMoney.push(clueValue);
+      clickAnswer(el);
     }
-  else if (element.id != 'correct'){
-    //clickClue(el);
-    clickAnswer(element);
-  }
-}
-  
-
-  //var totalMoney = 0
-
-$(document).on('click', 'button', function() {
-  console.log("reached the button click handler!");
-  console.log("this inside the onClick is "+ this);
-  idCheck(this);
-});
-//      // alert(this.id);
-//     // $(this).parent().remove();
-//     console.log("this is " +this.id);
-//     //  if (this.id === 'correct'){
-//     //   console.log("inside the true function")
-//     //   totalMoney = totalMoney + 200;
-//     //   alert(totalMoney);
-//     //   clickClue(el);
-//     // }
-//     //   else if (this.id != 'correct'){
-//     //     clickClue(el);
-//     //   }
+      else {
+        clickAnswer(el);
+      }
    
-//     // });
-  
-// });
+});
+}
 
 // function clickReset(event) {
 //   event.preventDefault();
@@ -305,9 +265,8 @@ function init() {
   var boardEl = document.getElementById("board");
   var resetEl = document.getElementById("reset");
 
+ 
   boardEl.addEventListener('click', boardClickHandler);
-
-  
 
   //resetEl.addEventListener('click', clickReset);
 }
@@ -315,11 +274,7 @@ function init() {
 window.onload = init;
 
 
-
 </script>
 
-
-    <!--         <script src="data.js"></script>
-        <script src="app.js"></script> -->
 </body>
 </html>

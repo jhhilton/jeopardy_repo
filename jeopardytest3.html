@@ -17,7 +17,7 @@
 
                 <li id="a1" class="clue-tile show-amount" data-category-index="0"><span class="amount">$200</span><span class="clue"></span><span class="clueAndAnswer"></span><span class="answer"></span><span class="incorrect1" style="display:none"></span><span class="incorrect2" style="display:none"></span><span class="incorrect3" style="display:none"></span></li>
 
-                <li id="a2" class="clue-tile show-amount" data-category-index="1"><span class="amount">$400</span><span class="clue"></span><span class="clueAndAnswer"></span><span class="answer"><span class="incorrect1" style="display:none"></span><span class="incorrect2" style="display:none"></span><span class="incorrect3" style="display:none"></span></li>
+                <li class="clue-tile show-amount" data-category-index="1"><span class="amount">$400</span><span class="clue"></span><span class="clueAndAnswer"></span><span class="answer"><span class="incorrect1" style="display:none"></span><span class="incorrect2" style="display:none"></span><span class="incorrect3" style="display:none"></span></li>
 
                 <li class="clue-tile show-amount" data-category-index="2"><span class="amount">$600</span><span class="clue"></span><span class="clueAndAnswer"></span><span class="answer"><span class="incorrect1" style="display:none"></span><span class="incorrect2" style="display:none"></span><span class="incorrect3" style="display:none"></span></li>
 
@@ -128,10 +128,10 @@ function shuffle(array) {
                 // $(".incorrect3", thisCategory).eq(i).html("<button>" + smth.results[i].incorrect_answers[2]+ "</button>");
 
                 var thisClue = smth.results[i].question;
-                var correct = $('<br><br><button type="button" class="btn btn-info btn-lg  correct" id="correct">' + smth.results[i].correct_answer + '</button>');
-                var inc1 = $('<br><br><button type="button" class="btn btn-info btn-lg  incorrect" id="inc1">' + smth.results[i].incorrect_answers[0]+ '</button>');
-                var inc2 = $('<br><br><button type="button" class="btn btn-info btn-lg  incorrect" id="inc2">' + smth.results[i].incorrect_answers[1]+ '</button>');
-                var inc3 = $('<br><br><button type="button" class="btn btn-info btn-lg  incorrect" id="inc3">' + smth.results[i].incorrect_answers[2]+ '</button>');
+                var correct = $('<br><br><button type="button" class="btn btn-info btn-lg btn-block correct" id="correct">' + smth.results[i].correct_answer + '</button>');
+                var inc1 = $('<br><br><button type="button" class="btn btn-info btn-lg btn-block incorrect" id="inc1">' + smth.results[i].incorrect_answers[0]+ '</button>');
+                var inc2 = $('<br><br><button type="button" class="btn btn-info btn-lg btn-block incorrect" id="inc2">' + smth.results[i].incorrect_answers[1]+ '</button>');
+                var inc3 = $('<br><br><button type="button" class="btn btn-info btn-lg btn-block incorrect" id="inc3">' + smth.results[i].incorrect_answers[2]+ '</button>');
 
                 var choices = [correct,inc1,inc2,inc3];
 
@@ -206,65 +206,82 @@ function clickAnswer (el){ //el here is the button
   el.className = 'clue-tile revealed';
 }
 
-// Doing some basic event delegation for click events on the game board
-function boardClickHandler(event) {
-  var clickedEl = event.target;
-  var tagName = clickedEl.tagName;
 
-  if (tagName !== 'LI' && tagName !== 'SPAN') return;
 
-  var el = clickedEl;
-  if (tagName === 'SPAN') {
-    el = clickedEl.parentNode;
-  }
 
-  var classList = el.classList; // at this point el is definitely an LI element
-  //console.log(el);
-  console.log(this);
 
-  if (classList.contains("show-amount")) {
-    
-    clickAmount(el);
-
-  }
-
-  // else if (classList.contains("show-answer")) {
-  //   $(el).removeClass("clue-tile show-answer");
-  //   clickAnswer(el);
-  //}
-
-  
-   
-  
-  else if (classList.contains("show-clueAndAnswer")){ 
-   // else if ($(this).is('#correct')){
-    //console.log(el.show)
-    //  totalMoney = totalMoney + 200;
-    //  alert(totalMoney);}
-    idCheck(el);
-  // clickClue(el);
-    //else if (classList.contains("btn btn-info btn-lg btn-block")) {
-    //clickClue(el);
-    
-  }
-}
-
-function idCheck(element) {
+function idCheck(el) {
   console.log("inside idCheck(), element is : "+element);
   if (element.id === 'correct'){
       console.log("inside the true function")
       totalMoney = totalMoney + 200;
       alert(totalMoney);
       //clickClue(el);
-      clickAnswer(element);
+      clickAnswer(el);
     }
   else if (element.id != 'correct'){
     //clickClue(el);
-    clickAnswer(element);
+    clickAnswer(el);
   }
 }
-  
+$(document).on('click', 'li', function() {
+  //console.log("you clicked an li");
+  console.log(this);
+  console.log($(this).attr('class'));
+  console.log($(this).attr('id'));
+  var thisLi = this;
+  console.log("thisLi is now "+ thisLi)
+  var thisLiId = $(this).attr('id');
+  console.log("thisLiId is now "+ thisLiId);
+  //console.log("thisLi "+ thisLi);
+  //console.log(this.id);
 
+  switch (thisLiId) {
+    case 'a1':
+        clickAmount(this);
+        break;
+    case 1:
+        day = "Monday";
+        break;
+    case 2:
+        day = "Tuesday";
+        break;
+    case 3:
+        day = "Wednesday";
+        break;
+    case 4:
+        day = "Thursday";
+        break;
+    case 5:
+        day = "Friday";
+        break;
+    case 6:
+        day = "Saturday";
+}
+
+ switch (new Date().getDay()) {
+    case 0:
+        day = "Sunday";
+        break;
+    case 1:
+        day = "Monday";
+        break;
+    case 2:
+        day = "Tuesday";
+        break;
+    case 3:
+        day = "Wednesday";
+        break;
+    case 4:
+        day = "Thursday";
+        break;
+    case 5:
+        day = "Friday";
+        break;
+    case 6:
+        day = "Saturday";
+}
+});
   //var totalMoney = 0
 
 $(document).on('click', 'button', function() {
@@ -275,7 +292,7 @@ $(document).on('click', 'button', function() {
 //      // alert(this.id);
 //     // $(this).parent().remove();
 //     console.log("this is " +this.id);
-//     //  if (this.id === 'correct'){
+//       if (this.id === 'correct'){
 //     //   console.log("inside the true function")
 //     //   totalMoney = totalMoney + 200;
 //     //   alert(totalMoney);
@@ -299,20 +316,20 @@ $(document).on('click', 'button', function() {
 // Init
 //------------------------------------------------------------------------------
 
-function init() {
+// //function init() {
   
 
-  var boardEl = document.getElementById("board");
-  var resetEl = document.getElementById("reset");
+//   //var boardEl = document.getElementById("board");
+//   //var resetEl = document.getElementById("reset");
 
-  boardEl.addEventListener('click', boardClickHandler);
+//   boardEl.addEventListener('click', boardClickHandler);
 
   
 
-  //resetEl.addEventListener('click', clickReset);
-}
+//   //resetEl.addEventListener('click', clickReset);
+// }
 
-window.onload = init;
+// window.onload = init;
 
 
 
