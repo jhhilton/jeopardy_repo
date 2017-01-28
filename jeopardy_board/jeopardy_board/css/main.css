@@ -81,20 +81,18 @@ body {
   left: 0;
   width: 100vw;
   height: 100vh;
-  font-size: 100px;
   background: #15006f;
   z-index: 4;
   display: flex;
-  flex-direction: row-reverse;
   justify-content: center;
   align-items: center;
-  flex-wrap: wrap;
+  flex-direction:row;
+  flex-wrap:wrap;
 }
 
 .clueWords{
   width: 100%;
-  background: gold;
-}
+  }
 
 .btn {
 
@@ -129,7 +127,7 @@ margin-right: 15px;
   font-size: 5vw;
 }
 
-#reset {
+#finish {
   position: absolute;
   top: 10px;
   right: 10px;
@@ -140,7 +138,7 @@ margin-right: 15px;
   font-weight: 300;
 }
 
-#reset:hover {
+#finish:hover {
   opacity: 1;
   transition: opacity .5s;
 }
